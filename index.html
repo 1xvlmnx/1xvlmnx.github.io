@@ -2,25 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VLMNX | COSMIC MARKET</title>
+    <title>VLMNX | COSMIC RANKS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #7c3aed;
+            --primary: #8b5cf6;
             --secondary: #06b6d4;
-            --accent: #f472b6;
             --bg: #020617;
-            --card-bg: rgba(15, 23, 42, 0.7);
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Orbitron', sans-serif; }
         
         body {
-            background-color: var(--bg);
-            color: #f8fafc;
-            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            color: #fff;
             overflow-x: hidden;
             min-height: 100vh;
         }
@@ -29,246 +26,170 @@
         #loader {
             position: fixed;
             inset: 0;
-            background: var(--bg);
+            background: #000;
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            transition: opacity 0.5s ease;
         }
-        .spinner {
-            width: 80px;
-            height: 80px;
-            border: 4px solid rgba(124, 58, 237, 0.1);
-            border-left-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+        .scanner {
+            width: 200px;
+            height: 2px;
+            background: var(--secondary);
+            box-shadow: 0 0 15px var(--secondary);
+            animation: scan 2s ease-in-out infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes scan {
+            0%, 100% { transform: translateY(-20px); opacity: 0; }
+            50% { transform: translateY(20px); opacity: 1; }
+        }
 
-        /* --- BACKGROUND DECOR --- */
-        .nebula {
+        /* --- BACKGROUND --- */
+        .stars-container {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
+            inset: 0;
             z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b, #020617);
         }
 
-        /* --- TYPOGRAPHY --- */
+        /* --- HEADER --- */
         h1 {
-            font-family: 'Orbitron', sans-serif;
             text-align: center;
-            font-size: clamp(2rem, 8vw, 4rem);
-            font-weight: 900;
-            padding: 60px 20px 20px;
-            background: linear-gradient(to right, #fff, var(--primary), var(--secondary), #fff);
-            background-size: 200% auto;
+            font-size: clamp(2rem, 6vw, 4rem);
+            padding: 60px 20px;
+            background: linear-gradient(90deg, #fff, var(--primary), var(--secondary), #fff);
+            background-size: 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
+            animation: titleFlow 5s linear infinite;
         }
-        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes titleFlow { to { background-position: 200%; } }
 
-        /* --- GRID & CARDS --- */
+        /* --- MARKET GRID --- */
         .market {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            padding: 40px 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
         }
 
+        /* --- CARD DESIGN --- */
         .card {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 30px;
-            backdrop-filter: blur(16px);
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0; /* Handled by JS animation */
-            transform: translateY(30px);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            padding: 2px;
-            background: linear-gradient(45deg, var(--primary), transparent, var(--secondary));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            opacity: 0.3;
-            transition: 0.4s;
-        }
+        .card.visible { opacity: 1; transform: translateY(0); }
 
         .card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(124, 58, 237, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 58, 237, 0.2);
+            border-color: var(--secondary);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+            background: rgba(255, 255, 255, 0.07);
         }
 
-        .card:hover::before { opacity: 1; }
-
-        .rank-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
+        .rank-img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px var(--primary));
         }
 
-        .rank-header img {
-            width: 64px;
-            height: 64px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 8px var(--primary));
-            transition: transform 0.5s ease;
-        }
-        .card:hover .rank-header img { transform: rotate(12deg) scale(1.1); }
+        .rank-name { font-size: 1.5rem; margin-bottom: 10px; color: #fff; }
+        .price { font-size: 1.2rem; color: var(--secondary); margin-bottom: 15px; font-weight: bold; }
+        .desc { font-size: 0.9rem; color: #94a3b8; line-height: 1.4; margin-bottom: 25px; }
 
-        .rank-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .price-tag {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .desc {
-            font-size: 1rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            min-height: 50px;
-        }
-
-        /* --- BUTTON SHIMMER --- */
+        /* --- BUTTON --- */
         .buy-btn {
             width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            padding: 12px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: #fff;
+            border-radius: 10px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            font-weight: bold;
             transition: 0.3s;
+            overflow: hidden;
+            position: relative;
         }
 
         .buy-btn:hover {
-            filter: brightness(1.2);
-            letter-spacing: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 20px var(--primary);
+            transform: scale(1.05);
         }
 
-        .buy-btn::after {
-            content: "";
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
-        }
-        .buy-btn:hover::after { left: 120%; }
-
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #475569;
-        }
-
-        /* Entry Animation Class */
-        .fade-up {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
+        footer { text-align: center; padding: 50px; opacity: 0.4; font-size: 0.8rem; }
     </style>
 </head>
-
 <body>
 
     <div id="loader">
-        <div class="spinner"></div>
-        <p style="font-family: 'Orbitron'; letter-spacing: 4px; color: var(--primary);">INITIALIZING SYSTEM...</p>
+        <h2 style="margin-bottom: 20px; letter-spacing: 5px;">VLMNX OS</h2>
+        <div class="scanner"></div>
     </div>
 
-    <div class="nebula"></div>
+    <div class="stars-container"></div>
 
     <h1>VLMNX STORE</h1>
 
     <div class="market" id="market"></div>
 
-    <footer>© 2025 VLMNX NETWORKS — Secured via Galactic Protocol</footer>
+    <footer>© 2025 VLMNX RANKS • ESTABLISHED IN THE VOID</footer>
 
     <script>
         const ranks = [
-            { img:"https://via.placeholder.com/64/cd7f32/ffffff?text=B", name:"Bronze Rank", price:"50", desc:"Access to basic cosmic channels and starter badges."},
-            { img:"https://via.placeholder.com/64/c0c0c0/ffffff?text=S", name:"Silver Rank", price:"100", desc:"Enhanced galaxy perks including priority support."},
-            { img:"https://via.placeholder.com/64/ffd700/000000?text=G", name:"Gold Rank", price:"200", desc:"Unlock premium star powers and exclusive chat effects."},
-            { img:"https://via.placeholder.com/64/e5e4e2/000000?text=P", name:"Platinum Rank", price:"400", desc:"High-tier authority with custom vanity roles."},
-            { img:"https://via.placeholder.com/64/b9f2ff/000000?text=D", name:"Diamond Rank", price:"600", desc:"Elite cosmic dominance and private server access."},
-            { img:"https://via.placeholder.com/64/9333ea/ffffff?text=C", name:"Celestial Rank", price:"800", desc:"Direct communication with the heavenly realm staff."},
-            { img:"https://via.placeholder.com/64/ffffff/000000?text=E", name:"Eternity Rank", price:"1200", desc:"Timeless control. Your legacy is written in the stars."},
-            { img:"https://via.placeholder.com/64/ff4500/ffffff?text=M", name:"Grandmaster Rank", price:"1600", desc:"Command entire galaxies with ultimate moderator tools."},
-            { img:"https://via.placeholder.com/64/00ffff/000000?text=!", name:"One Above All", price:"2500", desc:"Absolute cosmic power. You are the architect of VLMNX."}
+            { img:"https://cdn-icons-png.flaticon.com/512/2583/2583434.png", name:"Bronze", price:"50 Robux", desc:"Starter access to the cosmic network.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/2583/2583319.png", name:"Silver", price:"100 Robux", desc:"Tier-2 clearance for galaxy pioneers.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/2583/2583344.png", name:"Gold", price:"200 Robux", desc:"Premium status for elite star-dwellers.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/5166/5166619.png", name:"Platinum", price:"400 Robux", desc:"Advanced permissions and high authority.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/10307/10307849.png", name:"Diamond", price:"600 Robux", desc:"The pinnacle of hardness and status.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/4754/4754162.png", name:"Celestial", price:"800 Robux", desc:"Transcended beyond the physical realm.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/9431/9431057.png", name:"Eternity", price:"1200 Robux", desc:"Time has no meaning for your rank.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/3211/3211181.png", name:"Grandmaster", price:"1600 Robux", desc:"Commander of the interstellar legions.", link:"#"},
+            { img:"https://cdn-icons-png.flaticon.com/512/1732/1732439.png", name:"One Above All", price:"2500 Robux", desc:"Total absolute control of the system.", link:"#"}
         ];
 
         const market = document.getElementById("market");
 
-        // Load content
-        ranks.forEach((rank, index) => {
+        // Generate Cards
+        ranks.forEach((rank, i) => {
             const card = document.createElement("div");
             card.className = "card";
-            card.style.transitionDelay = `${index * 0.1}s`; // Staggered delay
-            
             card.innerHTML = `
-                <div class="rank-header">
-                    <img src="${rank.img}" alt="${rank.name}">
-                    <div class="rank-name">${rank.name}</div>
-                </div>
-                <div class="price-tag">
-                    <span style="font-size: 1rem; color: #64748b;">R$</span> ${rank.price}
-                </div>
+                <img src="${rank.img}" class="rank-img" alt="${rank.name}">
+                <div class="rank-name">${rank.name}</div>
+                <div class="price">${rank.price}</div>
                 <div class="desc">${rank.desc}</div>
-                <button class="buy-btn">Acquire Rank</button>
+                <button class="buy-btn" onclick="window.open('${rank.link}', '_blank')">PURCHASE</button>
             `;
-            
             market.appendChild(card);
+            
+            // Staggered animation
+            setTimeout(() => {
+                card.classList.add('visible');
+            }, 200 + (i * 100));
         });
 
-        // Handle Loading and Animation Trigger
+        // Remove Loader
         window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
             setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-                
-                // Trigger staggered entry animation
-                document.querySelectorAll('.card').forEach(c => c.classList.add('fade-up'));
-            }, 1500); // Artificial delay for effect
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 1200);
         });
     </script>
 </body>
