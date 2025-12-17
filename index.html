@@ -1,160 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Roblox Rank Market</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>VLMNX RANKS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
 
-    body {
-      background: radial-gradient(circle at top, #0f172a, #000);
-      color: white;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #1e1b4b, #020617 60%),
+    url("https://grainy-gradients.vercel.app/noise.svg");
+  color: #e5e7eb;
+  overflow-x: hidden;
+}
 
-    h1 {
-      text-align: center;
-      font-size: 3rem;
-      margin: 40px 0;
-      animation: fadeDown 1s ease;
-    }
+/* Galaxy stars */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, white, transparent),
+    radial-gradient(1px 1px at 80% 40%, white, transparent),
+    radial-gradient(1px 1px at 50% 70%, white, transparent);
+  opacity: 0.4;
+  z-index: -1;
+}
 
-    .market {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 25px;
-      padding: 20px;
-      max-width: 1300px;
-      margin: auto;
-    }
+/* Title */
+h1 {
+  text-align: center;
+  font-size: 3.2rem;
+  letter-spacing: 6px;
+  margin: 40px 0;
+  background: linear-gradient(90deg, #a78bfa, #22d3ee, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 3s infinite alternate;
+}
 
-    .card {
-      background: linear-gradient(145deg, #020617, #020617aa);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.6);
-      position: relative;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeUp 0.8s ease;
-    }
+@keyframes glow {
+  from { text-shadow: 0 0 10px #6366f1; }
+  to { text-shadow: 0 0 25px #22d3ee; }
+}
 
-    .card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 0 40px rgba(99,102,241,0.5);
-    }
+/* Market grid */
+.market {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
 
-    .rank {
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
+/* Card */
+.card {
+  background: rgba(2, 6, 23, 0.8);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 0 30px rgba(99,102,241,0.25);
+  transition: 0.4s ease;
+  animation: floatIn 0.8s ease;
+}
 
-    .price {
-      font-size: 1.2rem;
-      color: #a5b4fc;
-      margin: 10px 0;
-    }
+.card:hover {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 0 45px rgba(168,85,247,0.6);
+}
 
-    .desc {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .buy {
-      margin-top: 20px;
-      padding: 12px;
-      width: 100%;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(90deg, #6366f1, #8b5cf6);
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+/* Rank header */
+.rank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
 
-    .buy:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(139,92,246,0.7);
-    }
+.icon {
+  font-size: 1.8rem;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      opacity: 0.5;
-      font-size: 0.9rem;
-    }
+.price {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #93c5fd;
+}
 
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.desc {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+/* Buy button */
+.buy {
+  margin-top: 18px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.buy:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 30px #7c3aed;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+</style>
 </head>
+
 <body>
 
-<h1>🛒 Roblox Rank Market</h1>
+<h1>VLMNX RANKS</h1>
 
 <div class="market" id="market"></div>
 
 <footer>
-  © 2025 Your Game | Not affiliated with Roblox
+© 2025 VLMNX RANKS — Not affiliated with Roblox
 </footer>
 
-<!-- Click sound -->
-<audio id="clickSound" src="click.mp3"></audio>
-
 <script>
-  const ranks = [
-    { name: "Bronze", price: "50 Robux", desc: "Starter rank perks", link: "https://www.roblox.com/game-pass/BRONZE" },
-    { name: "Silver", price: "100 Robux", desc: "Better commands & perks", link: "https://www.roblox.com/game-pass/SILVER" },
-    { name: "Gold", price: "200 Robux", desc: "Premium rank access", link: "https://www.roblox.com/game-pass/GOLD" },
-    { name: "Platinum", price: "400 Robux", desc: "High-tier rank perks", link: "https://www.roblox.com/game-pass/PLATINUM" },
-    { name: "Diamond", price: "600 Robux", desc: "Elite power rank", link: "https://www.roblox.com/game-pass/DIAMOND" },
-    { name: "Celestial", price: "800 Robux", desc: "Heavenly rank access", link: "https://www.roblox.com/game-pass/CELESTIAL" },
-    { name: "Eternity", price: "1200 Robux", desc: "Timeless authority", link: "https://www.roblox.com/game-pass/ETERNITY" },
-    { name: "Grandmaster", price: "1600 Robux", desc: "Master-level dominance", link: "https://www.roblox.com/game-pass/GRANDMASTER" },
-    { name: "One Above All", price: "2500 Robux", desc: "Absolute power", link: "https://www.roblox.com/game-pass/ONEABOVEALL" }
-  ];
+const ranks = [
+  { icon: "🥉", name: "Bronze Rank", price: "50 Robux", desc: "Starter cosmic access", link: "#" },
+  { icon: "🥈", name: "Silver Rank", price: "100 Robux", desc: "Enhanced galaxy perks", link: "#" },
+  { icon: "🥇", name: "Gold Rank", price: "200 Robux", desc: "Premium star powers", link: "#" },
+  { icon: "💠", name: "Platinum Rank", price: "400 Robux", desc: "High-tier authority", link: "#" },
+  { icon: "💎", name: "Diamond Rank", price: "600 Robux", desc: "Elite cosmic dominance", link: "#" },
+  { icon: "🌌", name: "Celestial Rank", price: "800 Robux", desc: "Heavenly realm access", link: "#" },
+  { icon: "♾️", name: "Eternity Rank", price: "1200 Robux", desc: "Timeless control", link: "#" },
+  { icon: "👑", name: "Grandmaster Rank", price: "1600 Robux", desc: "Master of galaxies", link: "#" },
+  { icon: "🪐", name: "One Above All", price: "2500 Robux", desc: "Absolute cosmic power", link: "#" }
+];
 
-  const market = document.getElementById("market");
-  const sound = document.getElementById("clickSound");
+const market = document.getElementById("market");
 
-  ranks.forEach(rank => {
-    const card = document.createElement("div");
-    card.className = "card";
+ranks.forEach(rank => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="rank">
+      <span class="icon">${rank.icon}</span>
+      <span>| ${rank.name}</span>
+    </div>
+    <div class="price">${rank.price}</div>
+    <div class="desc">${rank.desc}</div>
+    <button class="buy">Buy</button>
+  `;
 
-    card.innerHTML = `
-      <div class="rank">${rank.name}</div>
-      <div class="price">${rank.price}</div>
-      <div class="desc">${rank.desc}</div>
-      <button class="buy">Buy</button>
-    `;
+  card.querySelector(".buy").onclick = () => {
+    window.open(rank.link, "_blank");
+  };
 
-    card.querySelector(".buy").onclick = () => {
-      sound.currentTime = 0;
-      sound.play();
-      window.open(rank.link, "_blank");
-    };
-
-    market.appendChild(card);
-  });
+  market.appendChild(card);
+});
 </script>
 
 </body>
