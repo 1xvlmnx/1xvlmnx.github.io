@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VLMNX | PREMIUM RANKS</title>
+    <title>VLMNX | PREMIUM STORE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
@@ -10,9 +10,8 @@
         :root {
             --primary: #a855f7;
             --secondary: #22d3ee;
-            --accent: #f472b6;
             --dark: #020617;
-            --glass: rgba(15, 23, 42, 0.8);
+            --glass: rgba(15, 23, 42, 0.85);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; font-family: 'Orbitron', sans-serif; }
@@ -24,7 +23,7 @@
             min-height: 100vh;
         }
 
-        /* --- ADVANCED LOADING SCREEN --- */
+        /* --- MATRIX LOADING SCREEN --- */
         #loader {
             position: fixed;
             inset: 0;
@@ -37,14 +36,13 @@
             transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
         }
         .load-text {
-            font-size: 1.5rem;
-            letter-spacing: 10px;
+            font-size: 1.2rem;
+            letter-spacing: 8px;
             color: var(--secondary);
-            text-shadow: 0 0 10px var(--secondary);
             animation: pulse 1.5s infinite;
         }
         .progress-bar {
-            width: 250px;
+            width: 200px;
             height: 2px;
             background: rgba(255,255,255,0.1);
             margin-top: 20px;
@@ -57,133 +55,111 @@
             width: 0%;
             background: var(--secondary);
             box-shadow: 0 0 15px var(--secondary);
-            animation: fillProgress 1.5s forwards;
+            animation: fillProgress 2s forwards;
         }
         @keyframes fillProgress { to { width: 100%; } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* --- UI ELEMENTS --- */
-        .hero {
-            text-align: center;
-            padding: 80px 20px 40px;
-        }
+        /* --- LAYOUT --- */
+        .hero { text-align: center; padding: 60px 20px 20px; }
         h1 {
-            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-size: clamp(2rem, 8vw, 4rem);
             font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 30%, var(--primary));
+            letter-spacing: 5px;
+            background: linear-gradient(to right, #fff, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.4));
         }
 
         .market {
-            max-width: 1400px;
+            max-width: 1300px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            gap: 25px;
             padding: 40px 20px;
         }
 
-        /* --- GLASSMORPHISM CARDS --- */
+        /* --- CARD STYLING --- */
         .card {
             background: var(--glass);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 40px 30px;
+            border-radius: 25px;
+            padding: 35px;
             text-align: center;
-            backdrop-filter: blur(20px);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(15px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
-            transform: scale(0.9) translateY(30px);
+            transform: translateY(30px);
         }
-        .card.show { opacity: 1; transform: scale(1) translateY(0); }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.1), transparent);
-            pointer-events: none;
-        }
+        .card.show { opacity: 1; transform: translateY(0); }
 
         .card:hover {
-            transform: translateY(-15px);
+            transform: translateY(-10px);
             border-color: var(--secondary);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(34, 211, 238, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(34, 211, 238, 0.2);
         }
 
         .rank-img {
-            width: 110px;
-            height: 110px;
+            width: 100px;
+            height: 100px;
             object-fit: contain;
-            margin-bottom: 25px;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
-            transition: transform 0.5s ease;
-        }
-        .card:hover .rank-img { transform: scale(1.1) rotate(5deg); }
-
-        .rank-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
-        .rank-price {
-            font-size: 1.3rem;
-            color: var(--secondary);
             margin-bottom: 20px;
-            font-weight: 600;
-            letter-spacing: 2px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
         }
-        .rank-desc { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
+
+        .rank-title { font-size: 1.6rem; margin-bottom: 8px; color: #fff; }
+        .rank-price { font-size: 1.2rem; color: var(--secondary); margin-bottom: 15px; font-weight: 700; }
+        .rank-desc { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; min-height: 45px; }
 
         .buy-btn {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
-            border-radius: 15px;
-            background: #fff;
-            color: #000;
-            font-weight: 900;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             transition: 0.3s;
         }
         .buy-btn:hover {
-            background: var(--secondary);
-            box-shadow: 0 0 25px var(--secondary);
-            transform: scale(1.02);
+            filter: brightness(1.2);
+            box-shadow: 0 0 20px var(--primary);
+            transform: scale(1.03);
         }
 
-        footer { padding: 80px 20px; text-align: center; opacity: 0.3; font-size: 0.7rem; letter-spacing: 5px; }
+        footer { padding: 60px; text-align: center; opacity: 0.2; font-size: 0.8rem; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <div class="load-text">VLMNX CRYPT</div>
+        <div class="load-text">ESTABLISHING CONNECTION</div>
         <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
 
     <div class="hero">
-        <h1>THE ARMORY</h1>
+        <h1>VLMNX RANKS</h1>
     </div>
 
     <div class="market" id="market"></div>
 
-    <footer>BYPASSING PHYSICAL LIMITS — VLMNX 2025</footer>
+    <footer>© 2025 VLMNX • SYSTEM SECURED</footer>
 
     <script>
-        // Updated with your EXACT filenames from the screenshot
+        // JUST PUT THE GAMEPASS ID NUMBERS HERE
         const ranks = [
-            { file: "69009-bronze.png", name: "Bronze", price: "50 Robux", desc: "Basic entry to the VLMNX star cluster." },
-            { file: "29153-silver.png", name: "Silver", price: "100 Robux", desc: "Enhanced data speed and silver-tier recognition." },
-            { file: "3862-gold.png", name: "Gold", price: "200 Robux", desc: "Premium star powers and unique chat identity." },
-            { file: "82105-platinum.png", name: "Platinum", price: "400 Robux", desc: "High-tier authority with priority protocol access." },
-            { file: "11591-diamond.png", name: "Diamond", price: "600 Robux", desc: "Crystalized elite status. Unbreakable presence." },
-            { file: "20579-celestial.png", name: "Celestial", price: "800 Robux", desc: "Access to the divine server layers and tools." },
-            { file: "4373-eternity.png", name: "Eternity", price: "1200 Robux", desc: "Infinite lifespan rank. Never resets, never fades." },
-            { file: "44132-grandmaster.png", name: "Grandmaster", price: "1600 Robux", desc: "Architect of galaxies. Command high-level sectors." },
-            { file: "18372-oneaboveall.png", name: "One Above All", price: "2500 Robux", desc: "Absolute deity of VLMNX. Total power." }
+            { file: "69009-bronze.png", name: "Bronze", price: "50 Robux", id: "1633831916", desc: "Starter cosmic access for new recruits." },
+            { file: "29153-silver.png", name: "Silver", price: "100 Robux", id: "1634189777", desc: "Enhanced perks and silver-tier recognition." },
+            { file: "3862-gold.png", name: "Gold", price: "200 Robux", id: "1633710020", desc: "Premium star powers and unique identity." },
+            { file: "82105-platinum.png", name: "Platinum", price: "400 Robux", id: "1635449960", desc: "High-tier authority with protocol access." },
+            { file: "11591-diamond.png", name: "Diamond", price: "600 Robux", id: "1635076007", desc: "Elite status. Unbreakable cosmic presence." },
+            { file: "20579-celestial.png", name: "Celestial", price: "800 Robux", id: "1635851857", desc: "Access to the divine server layers." },
+            { file: "4373-eternity.png", name: "Eternity", price: "1200 Robux", id: "1635735910", desc: "Infinite rank. Your legacy never fades." },
+            { file: "44132-grandmaster.png", name: "Grandmaster", price: "1600 Robux", id: "1635633992", desc: "Architect of galaxies. Total command." },
+            { file: "18372-oneaboveall.png", name: "One Above All", price: "2500 Robux", id: "1635308059", desc: "The ultimate power. You control it all." }
         ];
 
         const container = document.getElementById("market");
@@ -191,26 +167,30 @@
         ranks.forEach((rank, i) => {
             const card = document.createElement("div");
             card.className = "card";
+            
+            // This builds the Roblox URL automatically using the ID
+            const robloxLink = `https://www.roblox.com/game-pass/${rank.id}/`;
+
             card.innerHTML = `
                 <img src="${rank.file}" class="rank-img" alt="${rank.name}">
                 <div class="rank-title">${rank.name}</div>
                 <div class="rank-price">${rank.price}</div>
                 <div class="rank-desc">${rank.desc}</div>
-                <button class="buy-btn">Acquire</button>
+                <button class="buy-btn" onclick="window.open('${robloxLink}', '_blank')">Acquire</button>
             `;
             container.appendChild(card);
             
-            // Staggered entry animation
-            setTimeout(() => card.classList.add('show'), 1500 + (i * 150));
+            // Smooth staggered entrance
+            setTimeout(() => card.classList.add('show'), 1000 + (i * 120));
         });
 
-        // Handle Loader Removal
-        window.onload = () => {
+        // Loader Removal
+        window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 loader.style.transform = "translateY(-100%)";
-            }, 1800);
-        };
+            }, 2000);
+        });
     </script>
 </body>
 </html>
