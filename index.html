@@ -2,27 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VLMNX | COSMIC RANKS</title>
+    <title>VLMNX | PREMIUM RANKS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #8b5cf6;
-            --secondary: #06b6d4;
-            --bg: #020617;
+            --primary: #a855f7;
+            --secondary: #22d3ee;
+            --accent: #f472b6;
+            --dark: #020617;
+            --glass: rgba(15, 23, 42, 0.8);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; font-family: 'Orbitron', sans-serif; }
         
         body {
-            background: var(--bg);
-            color: #fff;
+            background-color: var(--dark);
+            color: #f8fafc;
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* --- LOADING SCREEN --- */
+        /* --- ADVANCED LOADING SCREEN --- */
         #loader {
             position: fixed;
             inset: 0;
@@ -32,165 +34,183 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease;
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
         }
-        .scanner {
-            width: 200px;
+        .load-text {
+            font-size: 1.5rem;
+            letter-spacing: 10px;
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+            animation: pulse 1.5s infinite;
+        }
+        .progress-bar {
+            width: 250px;
             height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-fill {
+            position: absolute;
+            height: 100%;
+            width: 0%;
             background: var(--secondary);
             box-shadow: 0 0 15px var(--secondary);
-            animation: scan 2s ease-in-out infinite;
+            animation: fillProgress 1.5s forwards;
         }
-        @keyframes scan {
-            0%, 100% { transform: translateY(-20px); opacity: 0; }
-            50% { transform: translateY(20px); opacity: 1; }
-        }
+        @keyframes fillProgress { to { width: 100%; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* --- BACKGROUND --- */
-        .stars-container {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #1e1b4b, #020617);
-        }
-
-        /* --- HEADER --- */
-        h1 {
+        /* --- UI ELEMENTS --- */
+        .hero {
             text-align: center;
-            font-size: clamp(2rem, 6vw, 4rem);
-            padding: 60px 20px;
-            background: linear-gradient(90deg, #fff, var(--primary), var(--secondary), #fff);
-            background-size: 200%;
+            padding: 80px 20px 40px;
+        }
+        h1 {
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 30%, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: titleFlow 5s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.4));
         }
-        @keyframes titleFlow { to { background-position: 200%; } }
 
-        /* --- MARKET GRID --- */
         .market {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
         }
 
-        /* --- CARD DESIGN --- */
+        /* --- GLASSMORPHISM CARDS --- */
         .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 40px 30px;
             text-align: center;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
             opacity: 0;
-            transform: translateY(20px);
+            transform: scale(0.9) translateY(30px);
         }
+        .card.show { opacity: 1; transform: scale(1) translateY(0); }
 
-        .card.visible { opacity: 1; transform: translateY(0); }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.1), transparent);
+            pointer-events: none;
+        }
 
         .card:hover {
+            transform: translateY(-15px);
             border-color: var(--secondary);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(34, 211, 238, 0.2);
         }
 
         .rank-img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px var(--primary));
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            transition: transform 0.5s ease;
         }
+        .card:hover .rank-img { transform: scale(1.1) rotate(5deg); }
 
-        .rank-name { font-size: 1.5rem; margin-bottom: 10px; color: #fff; }
-        .price { font-size: 1.2rem; color: var(--secondary); margin-bottom: 15px; font-weight: bold; }
-        .desc { font-size: 0.9rem; color: #94a3b8; line-height: 1.4; margin-bottom: 25px; }
+        .rank-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        .rank-price {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .rank-desc { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
 
-        /* --- BUTTON --- */
         .buy-btn {
             width: 100%;
-            padding: 12px;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: #fff;
-            border-radius: 10px;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            background: #fff;
+            color: #000;
+            font-weight: 900;
+            text-transform: uppercase;
             cursor: pointer;
-            font-weight: bold;
             transition: 0.3s;
-            overflow: hidden;
-            position: relative;
         }
-
         .buy-btn:hover {
-            background: var(--primary);
-            box-shadow: 0 0 20px var(--primary);
-            transform: scale(1.05);
+            background: var(--secondary);
+            box-shadow: 0 0 25px var(--secondary);
+            transform: scale(1.02);
         }
 
-        footer { text-align: center; padding: 50px; opacity: 0.4; font-size: 0.8rem; }
+        footer { padding: 80px 20px; text-align: center; opacity: 0.3; font-size: 0.7rem; letter-spacing: 5px; }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <h2 style="margin-bottom: 20px; letter-spacing: 5px;">VLMNX OS</h2>
-        <div class="scanner"></div>
+        <div class="load-text">VLMNX CRYPT</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
 
-    <div class="stars-container"></div>
-
-    <h1>VLMNX STORE</h1>
+    <div class="hero">
+        <h1>THE ARMORY</h1>
+    </div>
 
     <div class="market" id="market"></div>
 
-    <footer>© 2025 VLMNX RANKS • ESTABLISHED IN THE VOID</footer>
+    <footer>BYPASSING PHYSICAL LIMITS — VLMNX 2025</footer>
 
     <script>
+        // Updated with your EXACT filenames from the screenshot
         const ranks = [
-            { img:"https://cdn-icons-png.flaticon.com/512/2583/2583434.png", name:"Bronze", price:"50 Robux", desc:"Starter access to the cosmic network.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/2583/2583319.png", name:"Silver", price:"100 Robux", desc:"Tier-2 clearance for galaxy pioneers.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/2583/2583344.png", name:"Gold", price:"200 Robux", desc:"Premium status for elite star-dwellers.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/5166/5166619.png", name:"Platinum", price:"400 Robux", desc:"Advanced permissions and high authority.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/10307/10307849.png", name:"Diamond", price:"600 Robux", desc:"The pinnacle of hardness and status.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/4754/4754162.png", name:"Celestial", price:"800 Robux", desc:"Transcended beyond the physical realm.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/9431/9431057.png", name:"Eternity", price:"1200 Robux", desc:"Time has no meaning for your rank.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/3211/3211181.png", name:"Grandmaster", price:"1600 Robux", desc:"Commander of the interstellar legions.", link:"#"},
-            { img:"https://cdn-icons-png.flaticon.com/512/1732/1732439.png", name:"One Above All", price:"2500 Robux", desc:"Total absolute control of the system.", link:"#"}
+            { file: "69009-bronze.png", name: "Bronze", price: "50 Robux", desc: "Basic entry to the VLMNX star cluster." },
+            { file: "29153-silver.png", name: "Silver", price: "100 Robux", desc: "Enhanced data speed and silver-tier recognition." },
+            { file: "3862-gold.png", name: "Gold", price: "200 Robux", desc: "Premium star powers and unique chat identity." },
+            { file: "82105-platinum.png", name: "Platinum", price: "400 Robux", desc: "High-tier authority with priority protocol access." },
+            { file: "11591-diamond.png", name: "Diamond", price: "600 Robux", desc: "Crystalized elite status. Unbreakable presence." },
+            { file: "20579-celestial.png", name: "Celestial", price: "800 Robux", desc: "Access to the divine server layers and tools." },
+            { file: "4373-eternity.png", name: "Eternity", price: "1200 Robux", desc: "Infinite lifespan rank. Never resets, never fades." },
+            { file: "44132-grandmaster.png", name: "Grandmaster", price: "1600 Robux", desc: "Architect of galaxies. Command high-level sectors." },
+            { file: "18372-oneaboveall.png", name: "One Above All", price: "2500 Robux", desc: "Absolute deity of VLMNX. Total power." }
         ];
 
-        const market = document.getElementById("market");
+        const container = document.getElementById("market");
 
-        // Generate Cards
         ranks.forEach((rank, i) => {
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-                <img src="${rank.img}" class="rank-img" alt="${rank.name}">
-                <div class="rank-name">${rank.name}</div>
-                <div class="price">${rank.price}</div>
-                <div class="desc">${rank.desc}</div>
-                <button class="buy-btn" onclick="window.open('${rank.link}', '_blank')">PURCHASE</button>
+                <img src="${rank.file}" class="rank-img" alt="${rank.name}">
+                <div class="rank-title">${rank.name}</div>
+                <div class="rank-price">${rank.price}</div>
+                <div class="rank-desc">${rank.desc}</div>
+                <button class="buy-btn">Acquire</button>
             `;
-            market.appendChild(card);
+            container.appendChild(card);
             
-            // Staggered animation
-            setTimeout(() => {
-                card.classList.add('visible');
-            }, 200 + (i * 100));
+            // Staggered entry animation
+            setTimeout(() => card.classList.add('show'), 1500 + (i * 150));
         });
 
-        // Remove Loader
-        window.addEventListener('load', () => {
+        // Handle Loader Removal
+        window.onload = () => {
             setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                }, 500);
-            }, 1200);
-        });
+                const loader = document.getElementById('loader');
+                loader.style.transform = "translateY(-100%)";
+            }, 1800);
+        };
     </script>
 </body>
 </html>
