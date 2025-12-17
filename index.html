@@ -9,92 +9,151 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Orbitron', sans-serif; }
+
 body {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top, #1e1b4b, #020617 60%),
-    url("https://grainy-gradients.vercel.app/noise.svg");
-  color: #e5e7eb;
-  overflow-x: hidden;
+  min-height:100vh;
+  background:#020617;
+  color:#e5e7eb;
+  overflow-x:hidden;
+  position:relative;
 }
+
+/* Galaxy moving stars */
+@keyframes moveStars {
+  from { background-position: 0 0, 0 0, 0 0; }
+  to { background-position: -2000px 2000px, 1500px -1500px, -1000px 1000px; }
+}
+
 body::before {
-  content: "";
-  position: fixed; inset: 0;
-  background-image:
+  content:"";
+  position:fixed; inset:0;
+  background:
     radial-gradient(1px 1px at 20% 30%, white, transparent),
     radial-gradient(1px 1px at 80% 40%, white, transparent),
     radial-gradient(1px 1px at 50% 70%, white, transparent);
-  opacity: 0.4; z-index: -1;
+  opacity:0.4;
+  z-index:-1;
+  animation: moveStars 120s linear infinite;
 }
+
+/* Title */
 h1 {
-  text-align: center;
-  font-size: 3.2rem;
-  letter-spacing: 6px;
-  margin: 40px 0;
+  text-align:center;
+  font-size:3.5rem;
+  letter-spacing:8px;
+  margin:50px 0;
   background: linear-gradient(90deg, #a78bfa, #22d3ee, #f472b6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: glow 3s infinite alternate;
 }
-@keyframes glow { from { text-shadow: 0 0 10px #6366f1; } to { text-shadow: 0 0 25px #22d3ee; } }
+@keyframes glow {
+  from { text-shadow:0 0 15px #6366f1; }
+  to { text-shadow:0 0 35px #22d3ee; }
+}
 
+/* Market grid */
 .market {
-  max-width: 1100px; margin: auto; padding: 20px;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap:25px;
+  padding:20px;
 }
+
+/* Glassmorphism card */
 .card {
-  background: rgba(2, 6, 23, 0.8);
-  border: 1px solid rgba(139,92,246,0.3);
-  border-radius: 20px; padding: 22px;
-  box-shadow: 0 0 30px rgba(99,102,241,0.25);
-  transition: 0.4s ease; animation: floatIn 0.8s ease;
+  background: rgba(20,20,40,0.6);
+  border: 1px solid rgba(139,92,246,0.4);
+  border-radius:25px;
+  padding:25px;
+  backdrop-filter: blur(10px);
+  box-shadow:0 0 30px rgba(168,85,247,0.25);
+  transition:0.4s ease;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
 }
-.card:hover { transform: translateY(-10px) scale(1.04); box-shadow: 0 0 45px rgba(168,85,247,0.6); }
-@keyframes floatIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.card:hover {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow:0 0 50px rgba(139,92,246,0.8);
+}
 
+/* Rank flex */
 .rank {
-  display: flex; align-items: center; gap: 10px; font-size: 1.6rem; font-weight: 700;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  font-size:1.6rem;
+  font-weight:700;
 }
-.rank img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; }
+.rank img {
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  transition: transform 0.3s ease;
+}
+.card:hover .rank img { transform: scale(1.2) rotate(10deg); }
 
-.price { margin: 10px 0; font-size: 1.1rem; color: #93c5fd; }
-.desc { font-size: 0.9rem; opacity: 0.8; }
+/* Price and description */
+.price { margin:10px 0; font-size:1.2rem; color:#93c5fd; font-weight:600; }
+.desc { font-size:0.95rem; opacity:0.8; }
+
+/* Buy button */
 .buy {
-  margin-top: 18px; width: 100%; padding: 12px; border: none; border-radius: 999px;
-  background: linear-gradient(90deg, #7c3aed, #06b6d4); color: white;
-  font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s ease;
+  margin-top:20px; width:100%; padding:14px;
+  border:none; border-radius:999px;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  color:white; font-size:1rem; font-weight:700;
+  cursor:pointer; transition:0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
-.buy:hover { transform: scale(1.07); box-shadow: 0 0 30px #7c3aed; }
+.buy:hover {
+  transform: scale(1.08);
+  box-shadow:0 0 25px #7c3aed;
+}
 
-footer { text-align: center; padding: 30px; font-size: 0.9rem; opacity: 0.5; }
+/* Entrance animation */
+@keyframes floatIn {
+  from { opacity:0; transform: translateY(50px); }
+  to { opacity:1; transform: translateY(0); }
+}
+.card { animation: floatIn 0.8s ease; }
+
+/* Footer */
+footer {
+  text-align:center; padding:30px; font-size:0.9rem; opacity:0.5;
+}
 </style>
 </head>
 
 <body>
 <h1>VLMNX RANKS</h1>
+
 <div class="market" id="market"></div>
+
 <footer>© 2025 VLMNX RANKS — Not affiliated with Roblox</footer>
 
 <script>
 const ranks = [
-  { img: "69009-bronze.png", name: "Bronze Rank", price: "50 Robux", desc: "Starter cosmic access", link: "#" },
-  { img: "29153-silver.png", name: "Silver Rank", price: "100 Robux", desc: "Enhanced galaxy perks", link: "#" },
-  { img: "3862-gold.png", name: "Gold Rank", price: "200 Robux", desc: "Premium star powers", link: "#" },
-  { img: "82105-platinum.png", name: "Platinum Rank", price: "400 Robux", desc: "High-tier authority", link: "#" },
-  { img: "11591-diamond.png", name: "Diamond Rank", price: "600 Robux", desc: "Elite cosmic dominance", link: "#" },
-  { img: "20579-celestial.png", name: "Celestial Rank", price: "800 Robux", desc: "Heavenly realm access", link: "#" },
-  { img: "4373-eternity.png", name: "Eternity Rank", price: "1200 Robux", desc: "Timeless control", link: "#" },
-  { img: "44123-grandmaster.png", name: "Grandmaster Rank", price: "1600 Robux", desc: "Master of galaxies", link: "#" },
-  { img: "18372-oneaboveall.png", name: "One Above All", price: "2500 Robux", desc: "Absolute cosmic power", link: "#" }
+  { img:"69009-bronze.png", name:"Bronze Rank", price:"50 Robux", desc:"Starter cosmic access", link:"#"},
+  { img:"29153-silver.png", name:"Silver Rank", price:"100 Robux", desc:"Enhanced galaxy perks", link:"#"},
+  { img:"3862-gold.png", name:"Gold Rank", price:"200 Robux", desc:"Premium star powers", link:"#"},
+  { img:"82105-platinum.png", name:"Platinum Rank", price:"400 Robux", desc:"High-tier authority", link:"#"},
+  { img:"11591-diamond.png", name:"Diamond Rank", price:"600 Robux", desc:"Elite cosmic dominance", link:"#"},
+  { img:"20579-celestial.png", name:"Celestial Rank", price:"800 Robux", desc:"Heavenly realm access", link:"#"},
+  { img:"4373-eternity.png", name:"Eternity Rank", price:"1200 Robux", desc:"Timeless control", link:"#"},
+  { img:"44123-grandmaster.png", name:"Grandmaster Rank", price:"1600 Robux", desc:"Master of galaxies", link:"#"},
+  { img:"18372-oneaboveall.png", name:"One Above All", price:"2500 Robux", desc:"Absolute cosmic power", link:"#"}
 ];
 
 const market = document.getElementById("market");
 
 ranks.forEach(rank => {
   const card = document.createElement("div");
-  card.className = "card";
-  card.innerHTML = `
+  card.className="card";
+  card.innerHTML=`
     <div class="rank">
       <img src="${rank.img}" alt="${rank.name}">
       <span>| ${rank.name}</span>
@@ -103,7 +162,7 @@ ranks.forEach(rank => {
     <div class="desc">${rank.desc}</div>
     <button class="buy">Buy</button>
   `;
-  card.querySelector(".buy").onclick = () => { window.open(rank.link, "_blank"); };
+  card.querySelector(".buy").onclick = ()=>{ window.open(rank.link,"_blank"); };
   market.appendChild(card);
 });
 </script>
